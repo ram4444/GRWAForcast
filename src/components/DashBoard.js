@@ -184,7 +184,7 @@ class Dashboard extends React.Component {
               noWrap
               className={classes.title}
             >
-              Dashboard
+              GRWAForecast Dashboard
             </Typography>
             <IconButton color="inherit">
                 <TimelinesIcon />
