@@ -1,5 +1,6 @@
-import { tsvParse, csvParse } from  "d3-dsv";
+import { tsvParse, csvParse,tsvFormat } from  "d3-dsv";
 import { timeParse } from "d3-time-format";
+import axios from 'axios'
 
 function parseData(parse) {
 	return function(d) {
@@ -16,12 +17,40 @@ function parseData(parse) {
 
 const parseDate = timeParse("%Y-%m-%d");
 
-const json = {"query": "{query_stockFull{2888.HK}","params":{"what":"env"}, "operationName":""}
+const jsonSent = {
+    "query": "query{query_stockFullLineChart{chart{name,valueList{date,value}}},query_stockFullCandleChart{chart{name,valueList{date,open,close,high,low}}}}",
+    "params": {
+        "what": "env"
+    },
+    "operationName": ""
+}
 
 export function getData() {
 	const promiseMSFT = fetch("https://cdn.rawgit.com/rrag/react-stockcharts/master/docs/data/MSFT.tsv")
-		.then(response => response.text())
-		.then(data => tsvParse(data, parseData(parseDate)))
+		.then(response => {
+			console.log("-----------response.text()--------")
+			//console.log(response.text())
+			return response.text()
+		})
+		.then(data => {
+			console.log(tsvParse(data, parseData(parseDate)))
+			return tsvParse(data, parseData(parseDate))
+		})
+	console.log("----------promiseMSFT:--------------")
 	console.log(promiseMSFT)
 	return promiseMSFT;
+}
+
+export function getDataGRWA() {
+	const rtn = axios.post('http://127.0.0.1:8089/graphql', jsonSent)
+		.then(response =>
+				tsvFormat(response.data.data.query_stockFullCandleChart.chart[3].valueList)
+		)
+		.then(data=>{
+				console.log(tsvParse(data, parseData(parseDate)))
+				return tsvParse(data, parseData(parseDate))
+		})
+	console.log("----------rtn:--------------")
+	console.log(rtn)
+	return rtn;
 }
