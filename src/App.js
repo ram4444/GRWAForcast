@@ -12,12 +12,13 @@ class App extends Component {
     return (
       <div className="App">
         <Dashboard />
+        {/*
         <Greet />
         <D3graph width={800} height={600} />
         <Button variant="contained" color="primary">
           Hello World
         </Button>
-
+      */}
       </div>
     );
   }

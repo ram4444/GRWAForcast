@@ -238,14 +238,17 @@ class Dashboard extends React.Component {
               <SearchIcon />
             </IconButton>
           </Grid>
-
-          <ChartComponent />
+          <Typography component="div" className={classes.chartContainer}>
+            <ChartComponent />
+          </Typography>
+          {/*
           <Typography component="div" className={classes.chartContainer}>
             <SimpleLineChart />
           </Typography>
           <Typography variant="h4" gutterBottom component="h2">
             Products
           </Typography>
+          */}
           <div className={classes.tableContainer}>
             <SimpleTable />
           </div>

@@ -10,7 +10,14 @@ function parseData(parse) {
 		d.low = +d.low;
 		d.close = +d.close;
 		d.volume = +d.volume;
-
+		d.pdopen = +d.pdopen;
+		d.pdclose = +d.pdclose;
+		d.pdhigh = +d.pdhigh;
+		d.pdlow = +d.pdlow;
+		d.pdopendisper = +d.pdopendisper;
+		d.pdcloseisper = +d.pdcloseisper;
+		d.pdhighisper = +d.pdhighisper;
+		d.pdlowisper = +d.pdlowisper;
 		return d;
 	};
 }
@@ -18,7 +25,7 @@ function parseData(parse) {
 const parseDate = timeParse("%Y-%m-%d");
 
 const jsonSent = {
-    "query": "query{query_stockFullLineChart{chart{name,valueList{date,value}}},query_stockFullCandleChart{chart{name,valueList{date,open,close,high,low}}}}",
+    "query": "query{query_stockFullCandleChart{chart{name,valueList{date,open,close,high,low,volume,pdopen,pdclose,pdhigh,pdlow,pdopendisper,pdcloseisper,pdhighisper,pdlowisper}}}}",
     "params": {
         "what": "env"
     },
@@ -44,10 +51,9 @@ export function getData() {
 export function getDataGRWA() {
 	const rtn = axios.post('http://127.0.0.1:8089/graphql', jsonSent)
 		.then(response =>
-				tsvFormat(response.data.data.query_stockFullCandleChart.chart[3].valueList)
+				tsvFormat(response.data.data.query_stockFullCandleChart.chart[0].valueList)
 		)
 		.then(data=>{
-				console.log(tsvParse(data, parseData(parseDate)))
 				return tsvParse(data, parseData(parseDate))
 		})
 	console.log("----------rtn:--------------")
