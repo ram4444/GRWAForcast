@@ -50,7 +50,8 @@ class CandleStickChartWithEdge extends React.Component {
 		const xExtents = [start, end];
 
 		return (
-			<ChartCanvas height={400}
+			<ChartCanvas height={600}
+				margin={{ left: 70, right: 70, top: 20, bottom: 30 }}
 				ratio={ratio}
 				width={width}
 				type={type}
@@ -62,12 +63,20 @@ class CandleStickChartWithEdge extends React.Component {
 				xExtents={xExtents}
 			>
 				<Chart id={2}
-					yExtents={[d => d.volume]}
+					yExtents={[d => d.pdopendisper]}
 					height={100} origin={(w, h) => [0, h - 100]}
 				>
-					<YAxis axisAt="left" orient="left" ticks={5} tickFormat={format(".2s")}/>
-					<BarSeries yAccessor={d => d.volume} fill={d => d.close > d.open ? "#6BA583" : "#FF0000"} />
-					<CurrentCoordinate yAccessor={d => d.volume} fill="#9B0A47" />
+					{/*
+						<YAxis axisAt="left" orient="left" ticks={5} tickFormat={format(".2s")}/>
+						<BarSeries yAccessor={d => d.volume} fill={d => d.close > d.open ? "#6BA583" : "#FF0000"} />
+						<CurrentCoordinate yAccessor={d => d.volume} fill="#9B0A47" />
+
+						*/}
+					<YAxis axisAt="left" orient="left" ticks={5} percentScale={true} tickFormat={format(".0%")}/>
+					<LineSeries yAccessor={d => d.pdopendisper} highlightOnHover stroke="#0055aa"/>
+					<LineSeries yAccessor={d => d.pdclosedisper} highlightOnHover stroke="#0000ef"/>
+					<LineSeries yAccessor={d => d.pdhighdisper} highlightOnHover stroke="#ff7f0e"/>
+					<LineSeries yAccessor={d => d.pdlowdisper} highlightOnHover stroke="#550000"/>
 				</Chart>
 				<Chart id={1}
 					yPan yExtents={[d => [d.high, d.low]]}
@@ -81,10 +90,10 @@ class CandleStickChartWithEdge extends React.Component {
 					<CandlestickSeries />
 
 					//Predict
-					<LineSeries yAccessor={d => d.pdopen} highlightOnHover stroke="#0000ef"/>
-					<LineSeries yAccessor={d => d.pdclose} highlightOnHover stroke="#0000ef"/>
-					<LineSeries yAccessor={d => d.pdhigh} highlightOnHover stroke="#710072"/>
-					<LineSeries yAccessor={d => d.pdlow} highlightOnHover stroke="#710072"/>
+					<LineSeries yAccessor={d => d.pdopen} highlightOnHover strokeDasharray="LongDash" stroke="#0055aa"/>
+					<LineSeries yAccessor={d => d.pdclose} highlightOnHover strokeDasharray="LongDash" stroke="#0000ef"/>
+					<LineSeries yAccessor={d => d.pdhigh} highlightOnHover strokeDasharray="Dot" stroke="#ff7f0e"/>
+					<LineSeries yAccessor={d => d.pdlow} highlightOnHover strokeDasharray="Dot" stroke="#550000"/>
 
 					<CurrentCoordinate yAccessor={d => d.pdopen} />
 					<CurrentCoordinate yAccessor={d => d.pdclose} />
@@ -94,10 +103,10 @@ class CandleStickChartWithEdge extends React.Component {
 
 					<EdgeIndicator itemType="last" orient="right" edgeAt="right"
 						yAccessor={d => d.close} fill={d => d.close > d.open ? "#6BA583" : "#FF0000"}/>
-					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdopen } />
-					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdclose} />
-					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdhigh} />
-					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdlow} />
+					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdopen } fill="#0055aa"/>
+					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdclose} fill="#0000ef"/>
+					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdhigh} fill="#ff7f0e"/>
+					<EdgeIndicator itemType="last" orient="right" edgeAt="right" yAccessor={d => d.pdlow} fill="#550000"/>
 
 
 
@@ -114,10 +123,7 @@ class CandleStickChartWithEdge extends React.Component {
 						at="right"
 						orient="right"
 						displayFormat={format(".2f")} />
-					<MouseCoordinateY
-						at="left"
-						orient="left"
-						displayFormat={format(".2f")} />
+
 
 					<OHLCTooltip origin={[-40, -65]}/>
 				</Chart>

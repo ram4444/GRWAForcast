@@ -25,7 +25,7 @@ function parseData(parse) {
 const parseDate = timeParse("%Y-%m-%d");
 
 const jsonSent = {
-    "query": "query{query_stockFullCandleChart{chart{name,valueList{date,open,close,high,low,volume,pdopen,pdclose,pdhigh,pdlow,pdopendisper,pdcloseisper,pdhighisper,pdlowisper}}}}",
+    "query": "query{query_stockFullCandleChart{chart{name,valueList{date,open,close,high,low,volume,pdopen,pdclose,pdhigh,pdlow,pdopendisper,pdclosedisper,pdhighdisper,pdlowdisper}}}}",
     "params": {
         "what": "env"
     },
